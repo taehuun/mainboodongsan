@@ -3,16 +3,15 @@
 똑똑한 내 집 마련의 시작.  
 주택 거래 정보 플랫폼
 
-![image](https://user-images.githubusercontent.com/38212743/123923071-9cf3b700-d9c3-11eb-9d96-6ed5b8e9f4eb.png)
+<br><br>![메인화면(관리자)](https://github.com/taehuun/mainboodongsan/assets/39759138/65b48ef7-2e19-4061-a24b-b122514526c8)
 
-<br><br>
 
 <h2> 1️⃣ 기획배경 </h2>
 
 _이 곳 저 곳 비교하지 않고, 한 곳에서 원하는 조건의 집을 찾을 수 없을까?_
 <br>
 
-이사를 하고자 할 동네에서 원하는 주택을 찿아낼 목적으로 주택 매물, 동네 정보 등을 조회하고 사용자 편의성을 높일 동네 커뮤니티 등 다양한 서비스를 제공하고자 한다.
+사용자가 찾고자 하는 지역(시/구/동)별 아파트 매매/거래 정보를 제공하자
 
 <br>
 
@@ -21,26 +20,17 @@ _이 곳 저 곳 비교하지 않고, 한 곳에서 원하는 조건의 집을 �
 1. 다양한 매물 정보 검색
 2. 사용자 맞춤 서비스 제공
    - 관심 매물, 관심 동네를 등록하고 한 눈에 모아볼 수 있도록 한다.
-3. 자치구 별 통계 및 학군 정보 제공
+3. 유저간 자유로운 소통을 위한 커뮤니티 게시판 기능
    - 이사갈 동네를 비교하고 선택하는데 도움을 준다
-4. 우리동네 커뮤니티로 활용 - 지역 커뮤니티 활성화에 기여한다.
+   - 지역 커뮤니티 활성화에 기여한다.
    <br>
 
-## 3️⃣ 역할
 
-<h3>Backend (Spring) & Front-end(Vue)</h3>
-
-- 로그인, 회원가입, 마이페이지 개발
-- 지역 별 통계 정보 검색 페이지 개발
-- 학군 정보 검색 페이지 개발
-- 메인 페이지 및 팀 소개 페이지 개발  
-  <br>
-
-## 4️⃣ 개발 환경 & 기술 스택
+## 3️⃣ 개발 환경 & 기술 스택
 
 - 운영체제 : Window 10, Mac OS X
-- Front : Vue.js, Vue-CLI, Vue-router, Vuex, axios, HTML5, CSS5, BootStrap5, JavaScript, Chart.js
-- Back : SpringBoot, MyBatis, GSON
+- Front : Vue.js, Vue-CLI, Vue-router, Vuex, axios, HTML5, CSS5, BootStrap5, JavaScript
+- Back : SpringBoot, MyBatis, JSON
 - Database : MySQL
 - Etc : Git, Gitlab
   <br>
@@ -50,34 +40,46 @@ _이 곳 저 곳 비교하지 않고, 한 곳에서 원하는 조건의 집을 �
 ### Client (Vue)
 
 ```
-happy-house
+mainbooHouse
 .
-dist/
+img_readme/
 public/
 src/
+    api/
+         board.js
+         community.js
+         houseApi.js
+         memberApi.js
     assets/
         css/
         img/
-        upload/
-    common/
-        axios.js
-        kakao.js
-        ...
     components/
-        modals/
-        Bookmark.vue
-        BookmarkArea.vue
+         board/
+         item/
+            BoardFormItem.vue
+            BoardListItem.vue
+         BoardDetail.vue
+         BoardList.vue
+         BoardModify.vue
+         BoardWrite.vue
         ...
     routers/
-        router.js
+        index.js
     store/
-        store.js
-    vendor/
-        notyf/
-        sweetalert2/
+         counter.js
+         memberStore.js
+    util/
+        http-commons/
+    views/
+         CommunityView.vue
+         HomeView.vue
+         HouseView.vue
+         JoinView.vue
+         LoginView.vue
+         MyPageView.vue
+         TheNoticeView.vue
     App.vue
     main.js
-babel.config.js
 package.js
 package-lock.json
 README.md
@@ -87,119 +89,80 @@ README.md
 ### Server (Spring Boot)
 
 ```
-HappyHouse
+myhouse
 .
-bin/
-gradle/
 src/
     main/
         java/
-            com.ssafy.happyhouse/
-                common/
-                    LoggerAspect.java
-                    LoginInterceptor.java
-                config/
-                    GlobalExceptionHandler.java
-                    WebMvcConfig.java
+            com.ssafy.house/
                 controller/
                     BoardController.java
-                    CodeController.java
-                    ...
-                dao/
-                    BoardDao.java
-                    CodeDao.java
-                    ...
+                    CommunityController.java
+                    HouseController.java
+                    MemberController.java
                 dto/
                     BoardDto.java
-                    BoardFileDto.java
+                    CommunityDto.java
+                    ...
+                exception/
+                    UnAuthorizedException.java
+                mapper/
+                    BoardMapper.java
+                    CommunityMapper.java
                     ...
                 service/
                     BoardService.java
                     BoardServiceImpl.java
                     ...
-                HappyHouseApplication.java
+                util/
+                    JWTUtil.java
+                MyhouseApplication.java
         resources/
-            config/
             mapper/
-                board_query.xml
-                code_query.xml
+                board.xml
+                community.xml
                 ...
-            static/
-                css/
-                img/
-                js/
-                upload/
-                favicon.ico
-                index.html
-            logback.xml
+            application.xml
     test/
-build.gradle
-gradlew
-gradlew.bat
-settings.gradle
 ...
 
 ```
 
-1. ERD  
-   ![image](https://user-images.githubusercontent.com/38212743/123883235-90e80500-d983-11eb-8961-2e69441046a6.png)
+1. ERD
+   ![erd](https://github.com/taehuun/mainboodongsan/assets/39759138/2917b34c-65c0-4dfa-aaf8-b7eede8a9295)
 
-2. Class Diagram
+2. 기능정의서
+   ![기능정의서](https://github.com/taehuun/mainboodongsan/assets/39759138/c698676c-0ced-4fdd-86ab-8d93fea3cea1)
+   ![기능정의서2](https://github.com/taehuun/mainboodongsan/assets/39759138/2f8d8049-3309-4d3c-9ef4-97eafcfcfd8a)
 
-   - DTO  
-      ![image](https://user-images.githubusercontent.com/38212743/123883257-a0674e00-d983-11eb-8ee6-9c9e422d81be.png)
 
-   - Controller  
-      ![image](https://user-images.githubusercontent.com/38212743/123883264-a3623e80-d983-11eb-982c-d4ffd3af1e27.png)
 
-   - Service  
-      ![image](https://user-images.githubusercontent.com/38212743/123883278-aa894c80-d983-11eb-923b-da42726aad3f.png)
 
-   - DAO  
-      ![image](https://user-images.githubusercontent.com/38212743/123883288-af4e0080-d983-11eb-985f-60f2f93ed1c4.png)
+<br>
+<br>
 
 <br>
 
-## 6️⃣ 개발 내용 / 성과
-
-- **공공 데이터**를 활용한 서울시 아파트 매물, 학교, 통계 정보 (인구수 외 7가지) **DB 생성**
-- Kakao Map API를 활용한 **매물 정보, 학군 정보** 시각화
-- Interceptor를 활용한 로그인, Kakao API를 활용한 **SNS 로그인** 구현
-- 회원정보 수정, 탈퇴, 프로필 사진 업로드(파일 업로드)가 가능한 **MY PAGE** 구현
-- **Validation과 을 사용한 회원가입** 구현
-- 사용자 중심 **MY 관심 서비스** 구현 (관심 매물, 관심 지역 설정)
-- **Chart.js**를 활용한 자치구별 통계 정보 시각화
-- File Upload, Pagenation, CkEditor를 적용한 **커뮤니티** 구현
-- **Git**을 활용한 협업관리
-
-프로젝트 경진대회 최우수상 수상
-
-<br>
 
 ## 8️⃣ 발표 자료 / 시연 동영상
 
-![슬라이드1](https://user-images.githubusercontent.com/38212743/119929581-c7afb180-bfb8-11eb-9d56-e7378800666b.PNG)
-![슬라이드2](https://user-images.githubusercontent.com/38212743/119929585-c9797500-bfb8-11eb-843c-c47d63b9df7e.PNG)
-![슬라이드3](https://user-images.githubusercontent.com/38212743/119929587-c9797500-bfb8-11eb-8463-8598712e9735.PNG)
-![슬라이드4](https://user-images.githubusercontent.com/38212743/119929589-caaaa200-bfb8-11eb-8581-dfe3575a4301.PNG)
-![슬라이드5](https://user-images.githubusercontent.com/38212743/119929591-caaaa200-bfb8-11eb-8f07-9123a5b58a8b.PNG)
-![슬라이드6](https://user-images.githubusercontent.com/38212743/119929592-cb433880-bfb8-11eb-8866-379d90f50be3.PNG)
-![슬라이드7](https://user-images.githubusercontent.com/38212743/119929593-cbdbcf00-bfb8-11eb-9d7d-87f011096c1f.PNG)
-![슬라이드8](https://user-images.githubusercontent.com/38212743/119929595-cc746580-bfb8-11eb-90c7-0a40856bef6e.PNG)
-![슬라이드9](https://user-images.githubusercontent.com/38212743/119929596-cc746580-bfb8-11eb-9451-b1b6ed46f3fe.PNG)
-![슬라이드10](https://user-images.githubusercontent.com/38212743/119929597-cd0cfc00-bfb8-11eb-9a8c-13c7aecbd831.PNG)
-![슬라이드11](https://user-images.githubusercontent.com/38212743/119929599-cda59280-bfb8-11eb-8e99-e358218a062a.PNG)
-![슬라이드12](https://user-images.githubusercontent.com/38212743/119929601-ce3e2900-bfb8-11eb-94ba-8fa96ba46186.PNG)
-![슬라이드13](https://user-images.githubusercontent.com/38212743/119929603-ced6bf80-bfb8-11eb-8b1b-733c1f0ebcdb.PNG)
-![슬라이드14](https://user-images.githubusercontent.com/38212743/119929605-ced6bf80-bfb8-11eb-9c48-4ffead311ade.PNG)
-![슬라이드15](https://user-images.githubusercontent.com/38212743/119929606-cf6f5600-bfb8-11eb-8dd4-7dda26d086ed.PNG)
-![슬라이드16](https://user-images.githubusercontent.com/38212743/119929610-d007ec80-bfb8-11eb-9895-f8ca5dee44a3.PNG)
-![슬라이드17](https://user-images.githubusercontent.com/38212743/119929613-d007ec80-bfb8-11eb-9e7b-088ed9b111b6.PNG)
-![슬라이드18](https://user-images.githubusercontent.com/38212743/119929620-d0a08300-bfb8-11eb-88d3-e4a97d8f4cbc.PNG)
-![슬라이드19](https://user-images.githubusercontent.com/38212743/119929621-d1391980-bfb8-11eb-88b9-d73e50d76e9b.PNG)
-![슬라이드20](https://user-images.githubusercontent.com/38212743/119929623-d1d1b000-bfb8-11eb-81cf-e6d5dd8683e6.PNG)
-![슬라이드21](https://user-images.githubusercontent.com/38212743/119929625-d1d1b000-bfb8-11eb-9c27-e10c724d0daf.PNG)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_1](https://github.com/taehuun/mainboodongsan/assets/39759138/4df06ffd-2c4a-4198-b8bc-5ef9304bf0af)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_2](https://github.com/taehuun/mainboodongsan/assets/39759138/a2a868e2-bff5-4cf2-89fc-adcfdbd9c111)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_3](https://github.com/taehuun/mainboodongsan/assets/39759138/f87c7391-8a0a-4ad7-9c68-e5f742934ec1)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_5](https://github.com/taehuun/mainboodongsan/assets/39759138/926c9e0d-52b9-4f41-a95d-9a9000495b75)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_6](https://github.com/taehuun/mainboodongsan/assets/39759138/38e1da7f-1bb9-408c-9c62-21ac0a81a850)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_7](https://github.com/taehuun/mainboodongsan/assets/39759138/9a54e97a-5267-4174-969c-ea17485aaaf2)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_8](https://github.com/taehuun/mainboodongsan/assets/39759138/00de7956-c997-4b49-ac8d-48f950577efa)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_9](https://github.com/taehuun/mainboodongsan/assets/39759138/6db90ef3-1a6d-48ca-9fcc-fb455430f171)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_10](https://github.com/taehuun/mainboodongsan/assets/39759138/37dfffcb-a907-402e-8dc6-dca214ba0e38)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_11](https://github.com/taehuun/mainboodongsan/assets/39759138/3b3105ce-e6e8-444c-82ef-2323e34fa6ba)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_12](https://github.com/taehuun/mainboodongsan/assets/39759138/f8029bc1-b302-4b72-acd9-21a15cd3eb41)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_13](https://github.com/taehuun/mainboodongsan/assets/39759138/69e60e81-4607-4d09-8fea-f34955d9e903)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_14](https://github.com/taehuun/mainboodongsan/assets/39759138/9be05534-9c22-4d40-af88-60c2af262838)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_15](https://github.com/taehuun/mainboodongsan/assets/39759138/111ab483-5f5d-41b0-8a5c-2e58c2f06341)
+![1707577113703-2a763d07-b2a4-48e2-86a4-f378442d202b_17](https://github.com/taehuun/mainboodongsan/assets/39759138/a19b5115-f30d-4c87-95cf-da0b8ca6a5e8)
+
+
 
 ### 시연영상
-
-https://youtu.be/WNUg9eH2q6s
+https://www.youtube.com/watch?v=YglzT93UBTU
