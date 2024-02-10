@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="com.ssafy.house.mapper.CommunityMapper">
+	
+	<resultMap type="communityDto" id="community">
+		<result column="articleNo" property="articleNo"></result>
+		<result column="email" property="email"></result>
+		<result column="subject" property="subject"></result>
+		<result column="content" property="content"></result>
+		<result column="ripple" property="ripple"></result>
+		<result column="hit" property="hit"></result>
+		<result column="registerTime" property="registerTime"></result>
+		
+		<result column ="rippleNo" property="rippleNo"></result>
+	</resultMap>
+	
+	<resultMap type="rippleDto" id="ripple">
+	
+	<result column="rippleNo" property="rippleNo"></result>
+	<result column="email" property="email"></result>
+	<result column="content" property="content"></result>
+	<result column="registerTime" property="registerTime"></result>
+
+	</resultMap>
+	
+
+	<select id="listArticle" parameterType="map" resultMap="community">
+		select b.articleNo, b.email, b.subject, b.content, b.ripple, b.hit, b.registerTime
+		from community b
+		order by articleNo desc
+	</select>
+
+	<select id="getArticle" parameterType="int" resultMap="community">
+		select articleNo, email, subject, content, hit, registerTime
+		from community
+		where articleNo = #{articleNo}
+	</select>
+	
+	<select id="getlist" parameterType="int" resultMap="ripple">
+		select r.rippleNo, r.email, r.content, r.registerTime
+		from community c
+		join ripple r
+		on c.articleNo = r.articleNo
+		where #{articleNo} = r.articleNo
+		order by r.rippleNo desc
+	</select>
+	
+	<update id="updateRipple" parameterType="int">
+		UPDATE community
+		SET ripple = (
+    		SELECT COUNT(*)
+    		FROM ripple r
+    		WHERE community.articleNo = r.articleNo
+			)
+		WHERE articleNo = #{articleNo}
+	</update>
+	
+	<insert id="rippleWrite" parameterType="rippleDto">
+		insert into ripple (articleNo, email, content, registerTime)
+		values (${articleNo}, #{email}, #{content}, now())
+	</insert>
+	
+	<delete id="deleteRipple" parameterType="int">
+		delete from ripple
+		where rippleNo = #{rippleNo}
+	</delete>
+	
+	<insert id="writeArticle" parameterType="communityDto">
+		insert into community (email, subject, content, hit, registerTime)
+		values (#{email}, #{subject}, #{content}, 0, now())
+	</insert>
+	
+	<update id="updateHit" parameterType="int">
+		update community
+		set hit = hit + 1
+		where articleNo = #{articleNo}
+	</update>
+	
+	<update id="modifyArticle" parameterType="boardDto">
+		update community
+		set subject = #{subject}, content = #{content}
+		where articleNo = #{articleNo}
+	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from community
+		where articleNo = #{articleNo}
+	</delete>
+	
+	
+	</mapper>

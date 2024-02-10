@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ssafy.house.mapper.MemberMapper">
+	
+	<resultMap type="memberDto" id="memberDto">
+		<result column="email" property="email"></result>
+		<result column="pass" property="pass"></result>
+		<result column="name" property="name"></result>
+		<result column="phoneNumber" property="phoneNumber"></result>
+		<result column="join_date" property="joinDate"></result>
+		<result column="token" property="token"></result>
+		<result column="user_img" property="user_img"></result>
+	</resultMap>
+	
+	<select id="login" parameterType="map" resultMap="memberDto">
+		select *
+		from members
+		where email = #{email} and pass = #{pass}
+	</select>
+	
+	<select id="getMember" parameterType="String" resultMap="memberDto">
+		select *
+		from members
+		where email = #{email}
+	</select>
+	
+	<select id="getMemberByToken" parameterType="String" resultMap="memberDto">
+		select *
+		from members
+		where token = #{token}
+	</select>
+	
+	<insert id="joinMember" parameterType="memberDto">
+		insert into members (email, pass, name, phoneNumber, join_date)
+		values (#{email}, #{pass}, #{name}, #{phoneNumber}, curtime())
+	</insert>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from members
+		where email = #{email}
+	</delete>
+	
+
+	
+	<update id="modifyMember" parameterType="map">
+		update members
+		set `name` = #{name}, pass=#{pass}, user_img=#{user_img}
+		where email = #{email}
+	</update>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update members
+		set token = #{token}
+		where email = #{email}
+	</update>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from members
+		where email = #{email}
+	</select>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update members
+		set token = #{token, jdbcType=VARCHAR}
+		where email = #{email}
+	</update>
+	
+
+</mapper>

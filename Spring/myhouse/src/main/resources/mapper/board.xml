@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="com.ssafy.house.mapper.BoardMapper">
+		
+	<resultMap type="boardDto" id="board">
+		<result column="articleNo" property="articleNo"></result>
+		<result column="email" property="email"></result>
+		<result column="subject" property="subject"></result>
+		<result column="content" property="content"></result>
+		<result column="hit" property="hit"></result>
+		<result column="registerTime" property="registerTime"></result>
+		<result column="favorDong" property="favorDong"></result>
+	</resultMap>
+	
+	<insert id="writeArticle" parameterType="boardDto">
+		insert into board (email, subject, content, hit, registerTime)
+		values (#{email}, #{subject}, #{content}, 0, now())
+	</insert>
+	
+	<select id="listArticle" parameterType="map" resultMap="board">
+		select b.articleNo, b.email, b.subject, b.content, b.hit, DATE_FORMAT(b.registerTime, "%Y/%m/%d") registerTime
+		from board b
+		order by b.articleNo desc
+	</select>
+	
+	<select id="getArticle" parameterType="int" resultMap="board">
+		select articleNo, email, subject, content, hit, DATE_FORMAT(registerTime, "%Y/%m/%d") registerTime
+		from board
+		where articleNo = #{articleNo}
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update board
+		set hit = hit + 1
+		where articleNo = #{articleNo}
+	</update>
+	
+	<update id="modifyArticle" parameterType="boardDto">
+		update board
+		set subject = #{subject}, content = #{content}
+		where articleNo = #{articleNo}
+	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from board
+		where articleNo = #{articleNo}
+	</delete>
+	
+	</mapper>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ssafy.house.mapper.HouseMapper">
+	
+	<resultMap type="dongCode" id="dongCode">
+		<result column="dongCode" property="dongCode"></result>
+		<result column="sidoName" property="sidoName"></result>
+		<result column="gugunName" property="gugunName"></result>
+		<result column="dongName" property="dongName"></result>
+	</resultMap>
+	
+	
+
+	<select id="getSidoList" resultMap="dongCode">
+		select *
+		from dongCode
+		where gugunName is null
+	</select>
+	
+	<select id="getGugunList" parameterType="String" resultMap="dongCode">
+		select *
+		from dongCode
+		where sidoName = #{sidoName}
+		and gugunName is not null
+		and dongName is null 
+	</select>
+	
+	<select id="getDongList" parameterType="map" resultMap="dongCode">
+		select *
+		from dongCode
+		where sidoName = #{sidoName}
+		and gugunName = #{gugunName}
+		and dongName is not null
+	</select>
+	
+	
+	<resultMap type="houseDealResult" id="houseDealResult">
+		<result column="no" property="no"></result>
+		<result column="aptCode" property="aptCode"></result>
+		<result column="apartmentName" property="apartmentName"></result>
+		<result column="area" property="area"></result>
+		<result column="dealYear" property="dealYear"></result>
+		<result column="dealMonth" property="dealMonth"></result>
+		<result column="dealDay" property="dealDay"></result>
+		<result column="dealAmount" property="dealAmount"></result>
+		<result column="dong" property="dong"></result>
+		<result column="jibun" property="jibun"></result>
+		<result column="floor" property="floor"></result>
+		<result column="email" property="email"></result>
+		<result column="lng" property="lng"></result>
+		<result column="lat" property="lat"></result>
+	</resultMap>
+	
+	<select id="getDealList" parameterType="map" resultType="houseDealResult">
+		select B.aptCode, apartmentName, area, dealYear, dealMonth, dealDay, dealAmount, dong, jibun, floor, A.email, B.lng, B.lat
+		from (
+        select email, aptCode
+        from favorlist
+        where email = #{email}
+        ) A 
+		right outer join (
+		select C.aptCode, apartmentName, area, dealYear, dealMonth, dealDay, dealAmount, dong, jibun, floor, D.lng, D.lat
+		from housedeal C join houseinfo D
+		on D.dongCode= #{dongCode} and C.aptcode = D.aptcode
+		where dealYear = #{dealYear}
+		) B
+		on A.aptCode = B.aptCode;
+	</select>
+	
+	<select id="getDealListFavor" parameterType="map" resultType="houseDealResult">
+		select B.aptCode, apartmentName, dong, jibun, A.email, B.lng, B.lat
+		from (
+        select email, aptCode
+        from favorlist
+        where email = #{email}
+        ) A 
+		join (
+		select aptCode, apartmentName, dong, jibun, lng, lat
+        from houseinfo
+		) B
+		on A.aptCode = B.aptCode;
+	</select>
+	
+	<select id="getDealYear" parameterType="long" resultType="int">
+		select distinct dealYear
+		from housedeal
+		where aptCode = #{aptCode}
+	</select>
+	
+	<select id="getDealByYear" parameterType="map" resultType="houseDealResult">
+		select A.aptCode, apartmentName, area, dealYear, dealMonth, dealDay, dealAmount, dong, jibun, floor, B.lng, B.lat
+	    from housedeal A join houseinfo B
+	    on B.aptCode = A.aptCode and B.aptCode = #{aptCode}
+	    where dealYear = #{dealYear};
+	</select>
+	
+	
+	<insert id="favorRegister" parameterType="map">
+		insert into favorlist (email, aptCode)
+		values (#{email}, #{aptCode})
+	</insert>
+	
+	<delete id="favorDelete" parameterType="map">
+		delete from favorlist
+		where email = #{email}
+		and aptCode = #{aptCode}
+	</delete>
+	
+
+</mapper>
